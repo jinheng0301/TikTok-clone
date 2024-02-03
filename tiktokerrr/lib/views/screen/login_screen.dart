@@ -51,6 +51,7 @@ class LoginScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: TextInputFields(
                 controller: _passwordController,
+                isObscure: true,
                 labelText: 'Password',
                 icon: Icons.lock,
               ),
@@ -68,9 +69,10 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               child: GestureDetector(
-                onTap: () {
-                  print('log in user');
-                },
+                onTap: () => authController.loginUser(
+                  _emailController.text,
+                  _passwordController.text,
+                ),
                 child: const Center(
                   child: Text(
                     'Log in',
