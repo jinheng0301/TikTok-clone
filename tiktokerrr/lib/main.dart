@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiktokerrr/constants.dart';
 import 'package:tiktokerrr/controllers/auth_controller.dart';
+import 'package:tiktokerrr/views/screen/home_screen.dart';
 import 'package:tiktokerrr/views/screen/login_screen.dart';
 import 'package:tiktokerrr/views/screen/signup_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,13 +30,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'tik tok',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: backgroundColor,
       ),
-      home: LoginScreen(),
+      home: HomeScreen(),
     );
   }
 }
