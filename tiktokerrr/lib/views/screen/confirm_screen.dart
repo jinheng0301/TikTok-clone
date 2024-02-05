@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tiktokerrr/controllers/upload_video_controller.dart';
 import 'package:tiktokerrr/views/widgets/text_input_fileds.dart';
 import 'package:video_player/video_player.dart';
 
@@ -18,8 +20,11 @@ class ConfirmScreen extends StatefulWidget {
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
   late VideoPlayerController controller;
-  TextEditingController songController = TextEditingController();
-  TextEditingController captionController = TextEditingController();
+  TextEditingController _songController = TextEditingController();
+  TextEditingController _captionController = TextEditingController();
+  UploadVideoController uploadVideoController = Get.put(
+    UploadVideoController(),
+  );
 
   @override
   void initState() {
@@ -61,7 +66,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     width: size.width - 20,
                     child: TextInputFields(
-                      controller: songController,
+                      controller: _songController,
                       icon: Icons.music_note,
                       labelText: 'Song name',
                     ),
@@ -73,7 +78,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     width: size.width - 20,
                     child: TextInputFields(
-                      controller: captionController,
+                      controller: _captionController,
                       icon: Icons.closed_caption,
                       labelText: 'Caption name',
                     ),
@@ -82,7 +87,11 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     height: 10,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => uploadVideoController.uploadVideo(
+                      _songController.text,
+                      _captionController.text,
+                      widget.videoPath,
+                    ),
                     child: Text(
                       'Share',
                       style: TextStyle(

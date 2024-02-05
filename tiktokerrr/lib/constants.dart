@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktokerrr/controllers/auth_controller.dart';
 import 'package:tiktokerrr/views/screen/add_video_screen.dart';
+import 'package:tiktokerrr/views/screen/video_screen.dart';
 
 // COLORS
 const backgroundColor = Colors.black;
@@ -20,7 +21,7 @@ var authController = AuthController.instance;
 
 // SCREENS
 const pages = [
-  Center(child: Text('home screen')),
+  VideoScreen(),
   Text('search screen'),
   AddVideoScreen(),
   Text('messages screen'),
