@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktokerrr/constants.dart';
-import 'package:tiktokerrr/views/screen/signup_screen.dart';
+import 'package:tiktokerrr/views/screens/signup_screen.dart';
 import 'package:tiktokerrr/views/widgets/text_input_fileds.dart';
 
 class LoginScreen extends StatelessWidget {

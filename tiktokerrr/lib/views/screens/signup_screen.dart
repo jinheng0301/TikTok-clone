@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktokerrr/constants.dart';
-import 'package:tiktokerrr/views/screen/login_screen.dart';
+import 'package:tiktokerrr/views/screens/login_screen.dart';
 import 'package:tiktokerrr/views/widgets/text_input_fileds.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -44,6 +44,7 @@ class SignUpScreen extends StatelessWidget {
                     backgroundColor: Colors.red,
                     backgroundImage: NetworkImage(
                       'https://th.bing.com/th/id/OIP.DfbvP4LXGsNlhGino3DA6QHaHa?rs=1&pid=ImgDetMain',
+                      scale: 1.0,
                     ),
                   ),
                   Positioned(

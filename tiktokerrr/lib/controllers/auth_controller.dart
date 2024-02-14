@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:tiktokerrr/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tiktokerrr/models/user.dart' as model;
-import 'package:tiktokerrr/views/screen/home_screen.dart';
-import 'package:tiktokerrr/views/screen/login_screen.dart';
+import 'package:tiktokerrr/views/screens/home_screen.dart';
+import 'package:tiktokerrr/views/screens/login_screen.dart';
 // there are two user coming in this file
 
 class AuthController extends GetxController {
