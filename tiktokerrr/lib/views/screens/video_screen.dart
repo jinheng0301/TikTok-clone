@@ -193,7 +193,9 @@ class VideoScreen extends StatelessWidget {
                                                 topRight: Radius.circular(20),
                                               ),
                                             ),
-                                            child: CommentScreen(),
+                                            child: CommentScreen(
+                                              id: data.id,
+                                            ),
                                           ),
                                         ),
                                         child: Icon(
