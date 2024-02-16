@@ -113,7 +113,7 @@ class SignUpScreen extends StatelessWidget {
                     _usernameController.text,
                     _emailController.text,
                     _passwordController.text,
-                    // authController.ProfilePhoto,
+                    authController.profilePhoto,
                   ),
                   child: const Center(
                     child: Text(

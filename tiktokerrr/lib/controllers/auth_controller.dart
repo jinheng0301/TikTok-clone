@@ -15,7 +15,7 @@ class AuthController extends GetxController {
   late Rx<User?> _user;
 
   User get user => _user.value!;
-  File? get ProfilePhoto => _pickedImage.value;
+  File? get profilePhoto => _pickedImage.value;
   // getter, as the _pickedIamge is private field
 
   @override
@@ -49,22 +49,25 @@ class AuthController extends GetxController {
     String username,
     String email,
     String password,
-    // File? image,
+    File? image,
   ) async {
     try {
-      if (username.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+      if (username.isNotEmpty &&
+          email.isNotEmpty &&
+          password.isNotEmpty &&
+          image != null) {
         // save out user to auth and firestore database
         UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
 
-        // String downloadUrl = await _uploadToStorage(image);
+        String downloadUrl = await _uploadToStorage(image);
         model.User user = model.User(
           name: username,
           email: email,
           uid: cred.user!.uid,
-          // profilePhoto: downloadUrl,
+          profilePhoto: downloadUrl,
         );
 
         firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
@@ -121,7 +124,7 @@ class AuthController extends GetxController {
         'Profile picture',
         'You have successfully choosed your profile picture.',
       );
-      _pickedImage.value = File(pickedImage.path);
+      _pickedImage = Rx<File?>(File(pickedImage.path));
     }
   }
 
