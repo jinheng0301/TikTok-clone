@@ -138,8 +138,7 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
+                      Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => LoginScreen(),
                         ),
