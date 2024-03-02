@@ -6,28 +6,28 @@ import 'package:tiktokerrr/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tiktokerrr/models/user.dart' as model;
 import 'package:tiktokerrr/views/screens/home_screen.dart';
-import 'package:tiktokerrr/views/screens/login_screen.dart';
+import 'package:tiktokerrr/views/screens/auth_screens/login_screen.dart';
 // there are two user coming in this file
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
-  late Rx<File?> _pickedImage = Rx<File?>(null); // observable
+  late Rx<File?> _pickedImage; // observable
   late Rx<User?> _user;
 
-  User get user => _user.value!;
   File? get profilePhoto => _pickedImage.value;
   // getter, as the _pickedIamge is private field
+  User get user => _user.value!;
+
 
   @override
   void onReady() {
-    // TODO: implement onReady
+    super.onReady();
+
     _user = Rx<User?>(firebaseAuth.currentUser);
     _user.bindStream(
       firebaseAuth.authStateChanges().map((user) => user as User?),
     );
     ever(_user, (callback) => _setInitialScreen(_user.value));
-
-    super.onReady();
   }
 
   void _setInitialScreen(User? user) {

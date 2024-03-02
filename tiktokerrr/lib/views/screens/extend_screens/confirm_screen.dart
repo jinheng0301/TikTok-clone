@@ -5,6 +5,7 @@ import 'package:tiktokerrr/controllers/upload_video_controller.dart';
 import 'package:tiktokerrr/views/widgets/text_input_fileds.dart';
 import 'package:video_player/video_player.dart';
 
+// ignore: must_be_immutable
 class ConfirmScreen extends StatefulWidget {
   late final File videoFile;
   late String videoPath;

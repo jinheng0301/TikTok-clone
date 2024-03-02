@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[pageIndex],
+      body: pages[pageIndex], // variable pages in constants.dart
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
           setState(() {

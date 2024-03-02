@@ -28,7 +28,11 @@ class ProfileController extends GetxController {
         await firestore.collection('users').doc(_uid.value).get();
     final userData = userDoc.data()! as dynamic;
     String name = userData['name'];
-    String profilePhoto = userData['profilePhoto'];
+    String profilePhoto = userData['profilePhoto'] != null
+        ? userData['profilePhoto']
+        : 'default_profile_photo_url';
+    // Provide a default URL or handle it accordingly
+
     int likes = 0;
     int followers = 0;
     int following = 0;

@@ -3,7 +3,6 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlayerItem extends StatefulWidget {
   final String videoUrl;
-
   VideoPlayerItem({required this.videoUrl});
 
   @override

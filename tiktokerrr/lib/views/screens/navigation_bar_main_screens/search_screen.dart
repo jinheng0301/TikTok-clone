@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tiktokerrr/controllers/search_controller.dart'
     as search_controller;
 import 'package:tiktokerrr/models/user.dart';
-import 'package:tiktokerrr/views/screens/profile_screen.dart';
+import 'package:tiktokerrr/views/screens/navigation_bar_main_screens/profile_screen.dart';
 
 class SearchScreen extends StatelessWidget {
   final search_controller.SearchController _searchController = Get.put(

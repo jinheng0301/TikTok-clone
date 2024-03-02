@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tiktokerrr/constants.dart';
 import 'package:tiktokerrr/controllers/video_controller.dart';
-import 'package:tiktokerrr/views/screens/comment_screen.dart';
+import 'package:tiktokerrr/views/screens/extend_screens/comment_screen.dart';
+import 'package:tiktokerrr/views/screens/navigation_bar_main_screens/profile_screen.dart';
 import 'package:tiktokerrr/views/widgets/circle_animation.dart';
+import 'package:tiktokerrr/views/widgets/like_animation.dart';
 import 'package:tiktokerrr/views/widgets/video_player_item.dart';
-import 'package:video_player/video_player.dart';
 
-class VideoScreen extends StatelessWidget {
+class VideoScreen extends StatefulWidget {
+  @override
+  State<VideoScreen> createState() => _VideoScreenState();
+}
+
+class _VideoScreenState extends State<VideoScreen> {
   final VideoController _videoController = Get.put(VideoController());
+  bool isLikeAnimating = false;
 
   buildProfile(String profilePhoto) {
     return SizedBox(
@@ -88,17 +95,53 @@ class VideoScreen extends StatelessWidget {
         // get the changes and listen to the value real time
         () {
           return PageView.builder(
+            physics: BouncingScrollPhysics(),
+            scrollDirection: Axis.vertical,
             itemCount: _videoController.videoList.length,
             controller: PageController(
-              initialPage: 0,
+              initialPage: _videoController.videoList.length - 1,
               viewportFraction: 1,
             ),
             itemBuilder: (context, index) {
-              final data = _videoController.videoList[index];
+              final data = _videoController.videoList.reversed.toList()[index];
 
               return Stack(
                 children: [
-                  VideoPlayerItem(videoUrl: data.videoUrl),
+                  GestureDetector(
+                    // to detect the double click at the video when user click it
+                    onDoubleTap: () => {
+                      _videoController.likeVideo(
+                        data.id,
+                      ),
+                      setState(() {
+                        isLikeAnimating = true;
+                      }),
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        VideoPlayerItem(videoUrl: data.videoUrl),
+                        AnimatedOpacity(
+                          opacity: isLikeAnimating ? 1 : 0,
+                          duration: Duration(milliseconds: 200),
+                          child: LikeAnimation(
+                            child: Icon(
+                              Icons.favorite,
+                              color: Colors.white,
+                              size: 120,
+                            ),
+                            isAnimating: isLikeAnimating,
+                            duration: Duration(milliseconds: 400),
+                            onEnd: () {
+                              setState(() {
+                                isLikeAnimating = false;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Column(
                     children: [
                       SizedBox(height: 100),
@@ -116,12 +159,23 @@ class VideoScreen extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text(
-                                      data.username,
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (builder) => ProfileScreen(
+                                              uid: data.uid,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        data.username,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                     Text(
@@ -153,7 +207,7 @@ class VideoScreen extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              width: 100,
+                              width: 80,
                               margin: EdgeInsets.only(top: size.height / 5),
                               child: Column(
                                 mainAxisAlignment:
@@ -168,7 +222,7 @@ class VideoScreen extends StatelessWidget {
                                         ),
                                         child: Icon(
                                           Icons.favorite,
-                                          size: 40,
+                                          size: 35,
                                           color: data.likes.contains(
                                                   authController.user.uid)
                                               ? Colors.red
@@ -184,23 +238,31 @@ class VideoScreen extends StatelessWidget {
                                         ),
                                       ),
                                       InkWell(
-                                        onTap: () => showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20),
-                                                topRight: Radius.circular(20),
-                                              ),
+                                        onTap: () {
+                                          // showModalBottomSheet(
+                                          //   context: context,
+                                          //   builder: (context) => Container(
+                                          //     decoration: BoxDecoration(
+                                          //       borderRadius: BorderRadius.only(
+                                          //         topLeft: Radius.circular(20),
+                                          //         topRight: Radius.circular(20),
+                                          //       ),
+                                          //     ),
+                                          //     child: CommentScreen(
+                                          //       id: data.id,
+                                          //     ),
+                                          //   ),
+                                          // );
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (builder) =>
+                                                  CommentScreen(id: data.id),
                                             ),
-                                            child: CommentScreen(
-                                              id: data.id,
-                                            ),
-                                          ),
-                                        ),
+                                          );
+                                        },
                                         child: Icon(
                                           Icons.comment,
-                                          size: 40,
+                                          size: 35,
                                           color: Colors.white,
                                         ),
                                       ),
@@ -216,7 +278,7 @@ class VideoScreen extends StatelessWidget {
                                         onTap: () {},
                                         child: Icon(
                                           Icons.reply,
-                                          size: 40,
+                                          size: 35,
                                           color: Colors.white,
                                         ),
                                       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktokerrr/constants.dart';
-import 'package:tiktokerrr/views/screens/signup_screen.dart';
+import 'package:tiktokerrr/views/screens/auth_screens/signup_screen.dart';
 import 'package:tiktokerrr/views/widgets/text_input_fileds.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -69,7 +69,7 @@ class LoginScreen extends StatelessWidget {
                   Radius.circular(20),
                 ),
               ),
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () => authController.loginUser(
                   _emailController.text,
                   _passwordController.text,

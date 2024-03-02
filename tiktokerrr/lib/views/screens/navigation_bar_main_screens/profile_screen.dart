@@ -36,9 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           appBar: AppBar(
             backgroundColor: Colors.black12,
             leading: Icon(Icons.person_add_alt),
-            actions: [
-              Icon(Icons.more_horiz),
-            ],
+            actions: [Icon(Icons.more_horiz)],
             title: Text(
               controller.user['name'],
               style: TextStyle(
@@ -62,7 +60,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 100,
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
                       ),
                     ],
@@ -192,10 +191,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     itemCount: controller.user['thumbnails'].length,
                     itemBuilder: (context, index) {
                       String thumbnail = controller.user['thumbnails'][index];
-            
+
                       return CachedNetworkImage(
                         imageUrl: thumbnail,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       );
                     },
                   ),
