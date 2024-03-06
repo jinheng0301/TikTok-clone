@@ -52,41 +52,44 @@ class CommentScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          title: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (builder) => ProfileScreen(
-                                        uid: comment.uid,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: comment.username,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                          title: Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (builder) => ProfileScreen(
+                                          uid: comment.uid,
                                         ),
                                       ),
-                                    ],
+                                    );
+                                  },
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: comment.username,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  text: ' ${comment.comment}',
-                                  style: TextStyle(
-                                    fontSize: 15,
+                                RichText(
+                                  text: TextSpan(
+                                    text: '${comment.comment}',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           subtitle: Row(
                             children: [
