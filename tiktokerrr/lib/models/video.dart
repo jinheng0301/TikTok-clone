@@ -7,6 +7,7 @@ class Video {
   late List likes;
   late int commentCount;
   late int shareCount;
+  late int? collectCount;
   late String songName;
   late String caption;
   late String videoUrl;
@@ -20,6 +21,7 @@ class Video {
     required this.likes,
     required this.commentCount,
     required this.shareCount,
+    this.collectCount,
     required this.songName,
     required this.caption,
     required this.videoUrl,
@@ -34,6 +36,7 @@ class Video {
         "id": id,
         "likes": likes,
         "commentCount": commentCount,
+        "collectCount": collectCount,
         "shareCount": shareCount,
         "songName": songName,
         "caption": caption,
@@ -50,6 +53,7 @@ class Video {
       id: snapshot['id'],
       likes: snapshot['likes'],
       commentCount: snapshot['commentCount'],
+      collectCount: snapshot['collectCount'],
       shareCount: snapshot['shareCount'],
       songName: snapshot['songName'],
       caption: snapshot['caption'],

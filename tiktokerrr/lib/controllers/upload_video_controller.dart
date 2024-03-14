@@ -66,6 +66,7 @@ class UploadVideoController extends GetxController {
         id: "Video $len",
         likes: [],
         commentCount: 0,
+        collectCount: 0,
         shareCount: 0,
         songName: songName,
         caption: caption,

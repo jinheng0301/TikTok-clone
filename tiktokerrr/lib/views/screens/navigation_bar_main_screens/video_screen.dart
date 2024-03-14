@@ -277,6 +277,24 @@ class _VideoScreenState extends State<VideoScreen> {
                                       InkWell(
                                         onTap: () {},
                                         child: Icon(
+                                          Icons.star,
+                                          size: 35,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(height: 7),
+                                      Text(
+                                        data.collectCount != null
+                                            ? data.collectCount.toString()
+                                            : '0',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {},
+                                        child: Icon(
                                           Icons.reply,
                                           size: 35,
                                           color: Colors.white,
