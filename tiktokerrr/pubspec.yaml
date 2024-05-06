@@ -45,6 +45,7 @@ dependencies:
   video_compress: ^3.1.2
   timeago: ^3.6.1
   cached_network_image: ^3.3.1
+  loading_animation_widget: ^1.2.1
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:tiktokerrr/constants.dart';
 import 'package:tiktokerrr/controllers/profile_controller.dart';
+import 'package:tiktokerrr/views/screens/auth_screens/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   late final String uid;
@@ -22,13 +24,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _profileController.updateUserId(widget.uid);
   }
 
+  Future<void> _showDialogBox() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Log out mou?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('No no no, balik balik!'),
+            ),
+            TextButton(
+              onPressed: () async {
+                authController.signOut();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
+              },
+              child: Text('Conlan7firm!'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(
       builder: (controller) {
         if (controller.user.isEmpty) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: LoadingAnimationWidget.newtonCradle(
+              color: Colors.yellow,
+              size: 40,
+            ),
           );
         }
 
@@ -157,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: InkWell(
                       onTap: () {
                         if (widget.uid == authController.user.uid) {
-                          authController.signOut();
+                          _showDialogBox();
                         } else {
                           // whenever we click the button,
                           // we should follow the user
