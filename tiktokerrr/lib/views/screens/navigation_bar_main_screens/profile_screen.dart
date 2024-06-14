@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:tiktokerrr/constants.dart';
 import 'package:tiktokerrr/controllers/profile_controller.dart';
 import 'package:tiktokerrr/views/screens/auth_screens/login_screen.dart';
@@ -25,32 +26,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _showDialogBox() async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Log out mou?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('No no no, balik balik!'),
-            ),
-            TextButton(
-              onPressed: () async {
-                authController.signOut();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ),
-                );
-              },
-              child: Text('Conlan7firm!'),
-            ),
-          ],
+    // return showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return AlertDialog(
+    //       title: Text('Log out mou?'),
+    //       actions: [
+    //         TextButton(
+    //           onPressed: () {
+    //             Navigator.of(context).pop();
+    //           },
+    //           child: Text('No no no, balik balik!'),
+    //         ),
+    //         TextButton(
+    //           onPressed: () async {
+    //             authController.signOut();
+    //             Navigator.of(context).pushReplacement(
+    //               MaterialPageRoute(
+    //                 builder: (context) => LoginScreen(),
+    //               ),
+    //             );
+    //           },
+    //           child: Text('Conlan7firm!'),
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
+     return PanaraConfirmDialog.show(
+      context,
+      title: 'Log out',
+      message: 'Log out mou?',
+      confirmButtonText: 'Conlan7firm!',
+      onTapConfirm: () async {
+        authController.signOut();
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => LoginScreen(),
+          ),
         );
       },
+      cancelButtonText: 'Bukanlah balik!',
+      onTapCancel: () {
+        Navigator.of(context).pop();
+      },
+      padding: EdgeInsets.all(10),
+      panaraDialogType: PanaraDialogType.warning,
+      barrierDismissible: false,
+      // Optional: Prevents dialog from closing when tapped outside
+      textColor: Colors.amber,
     );
   }
 

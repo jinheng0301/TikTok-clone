@@ -220,8 +220,9 @@ class _VideoScreenState extends State<VideoScreen> {
                                   ),
                                   Container(
                                     width: 80,
-                                    margin:
-                                        EdgeInsets.only(top: size.height / 5),
+                                    margin: EdgeInsets.only(
+                                      top: size.height / 5,
+                                    ),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -271,7 +272,8 @@ class _VideoScreenState extends State<VideoScreen> {
                                                   MaterialPageRoute(
                                                     builder: (builder) =>
                                                         CommentScreen(
-                                                            id: data.id),
+                                                      id: data.id,
+                                                    ),
                                                   ),
                                                 );
                                               },
@@ -327,7 +329,8 @@ class _VideoScreenState extends State<VideoScreen> {
                                         ),
                                         CircleAnimation(
                                           child: buildMusicAlbum(
-                                              data.profilePhoto),
+                                            data.profilePhoto,
+                                          ),
                                         ),
                                       ],
                                     ),
