@@ -26,34 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _showDialogBox() async {
-    // return showDialog(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return AlertDialog(
-    //       title: Text('Log out mou?'),
-    //       actions: [
-    //         TextButton(
-    //           onPressed: () {
-    //             Navigator.of(context).pop();
-    //           },
-    //           child: Text('No no no, balik balik!'),
-    //         ),
-    //         TextButton(
-    //           onPressed: () async {
-    //             authController.signOut();
-    //             Navigator.of(context).pushReplacement(
-    //               MaterialPageRoute(
-    //                 builder: (context) => LoginScreen(),
-    //               ),
-    //             );
-    //           },
-    //           child: Text('Conlan7firm!'),
-    //         ),
-    //       ],
-    //     );
-    //   },
-    // );
-     return PanaraConfirmDialog.show(
+    return PanaraConfirmDialog.show(
       context,
       title: 'Log out',
       message: 'Log out mou?',
