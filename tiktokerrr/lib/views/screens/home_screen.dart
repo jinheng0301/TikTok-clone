@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tiktokerrr/constants.dart';
+import 'package:tiktokerrr/controllers/profile_controller.dart';
 import 'package:tiktokerrr/views/widgets/custom_Icon.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,6 +13,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int pageIndex = 0;
+  final ProfileController profileController = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    profileController.updateUserId(authController.user.uid);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: Colors.red,
         unselectedItemColor: Colors.white,
         currentIndex: pageIndex,
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
@@ -54,10 +64,17 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Messages',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              size: 30,
-            ),
+            icon: profileController.user['profilePhoto'] != null
+                ? CircleAvatar(
+                  radius: 15,
+                    backgroundImage: NetworkImage(
+                      profileController.user['profilePhoto'],
+                    ),
+                  )
+                : Icon(
+                    Icons.person,
+                    size: 30,
+                  ),
             label: 'Profile',
           ),
         ],
