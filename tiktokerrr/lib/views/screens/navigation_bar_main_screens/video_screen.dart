@@ -93,6 +93,26 @@ class _VideoScreenState extends State<VideoScreen> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
+      appBar: AppBar(
+        //TODO: modify the app bar to let user can choose to view the following content or random videos
+        backgroundColor: Colors.transparent,
+        title: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: Text('Following '),
+              ),
+              Icon(Icons.vertical_align_center),
+              GestureDetector(
+                onTap: () {},
+                child: Text(' For You'),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: Obx(
         // get the changes and listen to the value real time
         () {
