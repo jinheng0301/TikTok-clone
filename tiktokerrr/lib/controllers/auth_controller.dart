@@ -25,7 +25,7 @@ class AuthController extends GetxController {
 
     _user = Rx<User?>(firebaseAuth.currentUser);
     _user.bindStream(
-      firebaseAuth.authStateChanges().map((user) => user as User?),
+      firebaseAuth.authStateChanges().map((user) => user),
     );
     ever(_user, (callback) => _setInitialScreen(_user.value));
   }

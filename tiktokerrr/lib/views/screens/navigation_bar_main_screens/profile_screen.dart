@@ -67,8 +67,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.black12,
-            leading: Icon(Icons.person_add_alt),
-            actions: [Icon(Icons.more_horiz)],
+            leading: Icon(
+              Icons.person_add_alt,
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Icon(
+                  Icons.more_horiz,
+                ),
+              ),
+            ],
             title: Text(
               controller.user['name'],
               style: TextStyle(
