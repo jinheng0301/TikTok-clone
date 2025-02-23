@@ -238,122 +238,124 @@ class _VideoScreenState extends State<VideoScreen> {
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    width: 80,
-                                    margin: EdgeInsets.only(
-                                      top: size.height / 5,
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        buildProfile(data.profilePhoto),
-                                        Column(
+                                  Wrap(
+                                    children: [
+                                      Container(
+                                        width: 80,
+                                        margin: EdgeInsets.only(
+                                          top: size.height / 5,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            InkWell(
-                                              onTap: () =>
-                                                  _videoController.likeVideo(
-                                                data.id,
-                                              ),
-                                              child: Icon(
-                                                Icons.favorite,
-                                                size: 35,
-                                                color: data.likes.contains(
-                                                        authController.user.uid)
-                                                    ? Colors.red
-                                                    : Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(height: 7),
-                                            Text(
-                                              '${data.likes.length.toString()} likes',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                // showModalBottomSheet(
-                                                //   context: context,
-                                                //   builder: (context) => Container(
-                                                //     decoration: BoxDecoration(
-                                                //       borderRadius: BorderRadius.only(
-                                                //         topLeft: Radius.circular(20),
-                                                //         topRight: Radius.circular(20),
-                                                //       ),
-                                                //     ),
-                                                //     child: CommentScreen(
-                                                //       id: data.id,
-                                                //     ),
-                                                //   ),
-                                                // );
-                                                Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                    builder: (builder) =>
-                                                        CommentScreen(
-                                                      id: data.id,
-                                                    ),
+                                            buildProfile(data.profilePhoto),
+                                            Column(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () => _videoController
+                                                      .likeVideo(
+                                                    data.id,
                                                   ),
-                                                );
-                                              },
-                                              child: Icon(
-                                                Icons.comment,
-                                                size: 35,
-                                                color: Colors.white,
-                                              ),
+                                                  child: Icon(
+                                                    Icons.favorite,
+                                                    size: 35,
+                                                    color: data.likes.contains(
+                                                            authController
+                                                                .user.uid)
+                                                        ? Colors.red
+                                                        : Colors.white,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${data.likes.length.toString()} likes',
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    // showModalBottomSheet(
+                                                    //   context: context,
+                                                    //   builder: (context) => Container(
+                                                    //     decoration: BoxDecoration(
+                                                    //       borderRadius: BorderRadius.only(
+                                                    //         topLeft: Radius.circular(20),
+                                                    //         topRight: Radius.circular(20),
+                                                    //       ),
+                                                    //     ),
+                                                    //     child: CommentScreen(
+                                                    //       id: data.id,
+                                                    //     ),
+                                                    //   ),
+                                                    // );
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (builder) =>
+                                                            CommentScreen(
+                                                          id: data.id,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Icon(
+                                                    Icons.comment,
+                                                    size: 35,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  data.commentCount.toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {},
+                                                  child: Icon(
+                                                    Icons.star,
+                                                    size: 35,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  data.collectCount != null
+                                                      ? data.collectCount
+                                                          .toString()
+                                                      : '0',
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {},
+                                                  child: Icon(
+                                                    Icons.reply,
+                                                    size: 35,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  data.shareCount.toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            SizedBox(height: 7),
-                                            Text(
-                                              data.commentCount.toString(),
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: Icon(
-                                                Icons.star,
-                                                size: 35,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(height: 7),
-                                            Text(
-                                              data.collectCount != null
-                                                  ? data.collectCount.toString()
-                                                  : '0',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: Icon(
-                                                Icons.reply,
-                                                size: 35,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(height: 7),
-                                            Text(
-                                              data.shareCount.toString(),
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white,
+                                            CircleAnimation(
+                                              child: buildMusicAlbum(
+                                                data.profilePhoto,
                                               ),
                                             ),
                                           ],
                                         ),
-                                        CircleAnimation(
-                                          child: buildMusicAlbum(
-                                            data.profilePhoto,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
