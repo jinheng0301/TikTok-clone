@@ -22,6 +22,8 @@ if (flutterRoot == null) {
 }
 
 android {
+    namespace "com.example.tiktokerrr"
+
     compileSdkVersion 34
 
     compileOptions {
