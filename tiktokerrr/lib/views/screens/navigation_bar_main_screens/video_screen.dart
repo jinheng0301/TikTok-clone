@@ -155,11 +155,6 @@ class _VideoScreenState extends State<VideoScreen> {
                                 opacity: isLikeAnimating ? 1 : 0,
                                 duration: Duration(milliseconds: 200),
                                 child: LikeAnimation(
-                                  child: Icon(
-                                    Icons.favorite,
-                                    color: Colors.white,
-                                    size: 120,
-                                  ),
                                   isAnimating: isLikeAnimating,
                                   duration: Duration(milliseconds: 400),
                                   onEnd: () {
@@ -167,6 +162,11 @@ class _VideoScreenState extends State<VideoScreen> {
                                       isLikeAnimating = false;
                                     });
                                   },
+                                  child: Icon(
+                                    Icons.favorite,
+                                    color: Colors.white,
+                                    size: 120,
+                                  ),
                                 ),
                               ),
                             ],
