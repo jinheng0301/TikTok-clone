@@ -24,7 +24,7 @@ if (flutterRoot == null) {
 android {
     namespace "com.example.tiktokerrr"
 
-    compileSdkVersion 34
+    compileSdk 36
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -42,9 +42,9 @@ android {
     defaultConfig {
         applicationId "com.example.tiktokerrr"
         minSdkVersion flutter.minSdkVersion
-        targetSdkVersion 33
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        targetSdk 36
+        versionCode 1
+        versionName "1.0"
         multiDexEnabled true
     }
 
@@ -60,6 +60,5 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.otaliastudios:transcoder:0.9.1"
 }
