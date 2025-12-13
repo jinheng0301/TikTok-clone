@@ -4,7 +4,7 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlayerItem extends StatefulWidget {
   final String videoUrl;
-  VideoPlayerItem({required this.videoUrl});
+  const VideoPlayerItem({Key? key, required this.videoUrl}) : super(key: key);
 
   @override
   State<VideoPlayerItem> createState() => _VideoPlayerItemState();
@@ -12,109 +12,225 @@ class VideoPlayerItem extends StatefulWidget {
 
 class _VideoPlayerItemState extends State<VideoPlayerItem> {
   late VideoPlayerController _videoPlayerController;
-  late bool isVideoPlaying = false;
-  late bool showControls = true;
-  late Timer controlsTimer;
+  bool isVideoPlaying = false;
+  bool showControls = false;
+  bool isInitialized = false;
+  bool hasError = false;
+  String? errorMessage;
+  Timer? controlsTimer;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse(widget.videoUrl),
-      // convert String to Uri
-    )..initialize().then((_) {
+    _initializeVideo();
+  }
+
+  Future<void> _initializeVideo() async {
+    try {
+      // Validate URL
+      if (widget.videoUrl.isEmpty) {
         setState(() {
-          _videoPlayerController.setLooping(true);
-          _videoPlayerController.play();
-          _videoPlayerController.setVolume(1);
-          isVideoPlaying = true;
+          hasError = true;
+          errorMessage = 'Invalid video URL';
         });
+        return;
+      }
+
+      _videoPlayerController = VideoPlayerController.networkUrl(
+        Uri.parse(widget.videoUrl),
+      );
+
+      // Add error listener
+      _videoPlayerController.addListener(() {
+        if (_videoPlayerController.value.hasError) {
+          if (mounted) {
+            setState(() {
+              hasError = true;
+              errorMessage = _videoPlayerController.value.errorDescription ??
+                  'Failed to load video';
+            });
+          }
+        }
       });
 
-    controlsTimer = Timer.periodic(
-      Duration(seconds: 2),
-      (timer) {
-        if (!isVideoPlaying) {
-          timer.cancel();
-          // stop the timer if the video is paused
-        }
+      await _videoPlayerController.initialize();
+
+      if (mounted) {
         setState(() {
-          showControls = false;
-          // Hide controls after a few seconds
+          isInitialized = true;
         });
-      },
-    );
+
+        _videoPlayerController.play();
+        _videoPlayerController.setVolume(1);
+        _videoPlayerController.setLooping(true);
+        isVideoPlaying = true;
+
+        // Start auto-hide timer
+        _startControlsTimer();
+      }
+    } catch (e) {
+      print('Video initialization error: $e');
+      if (mounted) {
+        setState(() {
+          hasError = true;
+          errorMessage = 'Error: ${e.toString()}';
+        });
+      }
+    }
+  }
+
+  void _startControlsTimer() {
+    controlsTimer?.cancel();
+    if (isVideoPlaying && showControls) {
+      controlsTimer = Timer(Duration(seconds: 2), () {
+        if (mounted) {
+          setState(() {
+            showControls = false;
+          });
+        }
+      });
+    }
   }
 
   void _togglePlayPause() {
-    if (isVideoPlaying) {
-      _videoPlayerController.pause();
-    } else {
-      _videoPlayerController.play();
-    }
+    if (!isInitialized) return;
+
     setState(() {
-      isVideoPlaying = !isVideoPlaying;
-      showControls = true;
-      // Show controls when toggling play/pause
+      if (isVideoPlaying) {
+        _videoPlayerController.pause();
+        isVideoPlaying = false;
+        showControls = true;
+        controlsTimer?.cancel();
+      } else {
+        _videoPlayerController.play();
+        isVideoPlaying = true;
+        showControls = true;
+        _startControlsTimer();
+      }
     });
-
-    // Restart the timer when controls are shown
-    controlsTimer.cancel();
-
-    controlsTimer = Timer.periodic(
-      Duration(seconds: 3),
-      (timer) {
-        if (!isVideoPlaying) {
-          timer.cancel();
-        }
-        setState(() {
-          showControls = false;
-        });
-      },
-    );
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    controlsTimer?.cancel();
     _videoPlayerController.dispose();
-    controlsTimer.cancel();
-    // cancel the timer to avoid memory leaks
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
-    return Stack(
-      children: [
-        GestureDetector(
-          onTap: _togglePlayPause,
-          child: Container(
-            height: size.height,
-            width: size.width,
-            decoration: BoxDecoration(
-              color: Colors.black,
-            ),
-            child: VideoPlayer(_videoPlayerController),
+    if (hasError) {
+      return Container(
+        color: Colors.black,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.error_outline,
+                color: Colors.white,
+                size: 60,
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Unable to load video',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Text(
+                  errorMessage ?? 'Unknown error',
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: () {
+                  setState(() {
+                    hasError = false;
+                    errorMessage = null;
+                    isInitialized = false;
+                  });
+                  _initializeVideo();
+                },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                ),
+              ),
+            ],
           ),
         ),
-        Visibility(
-          visible: showControls,
-          child: Center(
-            child: IconButton(
-              onPressed: _togglePlayPause,
-              icon: Icon(
-                isVideoPlaying ? Icons.pause : Icons.play_arrow,
-                size: 40,
-                color: Colors.white,
+      );
+    }
+
+    if (!isInitialized) {
+      return Container(
+        color: Colors.black,
+        child: const Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+            strokeWidth: 3,
+          ),
+        ),
+      );
+    }
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          showControls = !showControls;
+          if (showControls && isVideoPlaying) {
+            _startControlsTimer();
+          }
+        });
+      },
+      child: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black,
+            child: Center(
+              child: AspectRatio(
+                aspectRatio: _videoPlayerController.value.aspectRatio,
+                child: VideoPlayer(_videoPlayerController),
               ),
             ),
           ),
-        ),
-      ],
+          if (showControls)
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black45,
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed: _togglePlayPause,
+                  icon: Icon(
+                    isVideoPlaying ? Icons.pause : Icons.play_arrow,
+                    size: 50,
+                    color: Colors.white,
+                  ),
+                  padding: const EdgeInsets.all(20),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
